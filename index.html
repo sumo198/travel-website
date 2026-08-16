@@ -1012,6 +1012,7 @@
           <span class="search-tag" onclick="quickSearch('巴厘岛')">🌴 巴厘岛</span>
           <span class="search-tag" onclick="quickSearch('瑞士')">🏔 瑞士</span>
           <span class="search-tag" onclick="quickSearch('圣托里尼')">🌅 圣托里尼</span>
+          <span class="search-tag" onclick="quickSearch('上海')">🌃 上海</span>
           <span class="search-tag" onclick="quickSearch('撒哈拉')">🐪 撒哈拉</span>
         </div>
       </div>
@@ -1475,11 +1476,23 @@
         country: '日本', desc: '潮流 · 寺庙 · 美食', img: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=600&q=80',
         highlights: ['筑地市场美食', '浅草寺和服体验', '涩谷十字路口', '秋叶原动漫文化', '新宿夜景', '箱根温泉一日游'],
       },
+      '上海': {
+        country: '中国', desc: '魔都 · 外滩 · 弄堂', img: 'https://images.unsplash.com/photo-1537531076925-5e259e456e2a?w=600&q=80',
+        page: 'shanghai.html',
+        highlights: ['外滩万国建筑', '陆家嘴天际线', '豫园古典园林', '武康路街区漫步', '新天地夜生活', '朱家角水乡'],
+      },
     };
 
     function doSearch() {
       const q = document.getElementById('searchInput').value.trim();
       if (!q) return;
+      // Check if we have a dedicated page for this destination
+      const pages = { '上海': 'shanghai.html' };
+      const pageMatch = Object.entries(pages).find(([k]) => q.includes(k) || k.includes(q));
+      if (pageMatch) {
+        window.location.href = pageMatch[1];
+        return;
+      }
       const match = Object.entries(destinations).find(([k]) => k.includes(q) || q.includes(k));
       if (match) {
         showSearchResult(match[0], match[1]);
