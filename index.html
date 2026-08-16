@@ -1373,16 +1373,108 @@
     // SEARCH
     // ═══════════════════════════════════
     const destinations = {
-      '京都': { country: '日本', desc: '古寺 · 庭园 · 抹茶', img: 'https://images.unsplash.com/photo-1528164344705-47542687000d?w=600&q=80' },
-      '巴厘岛': { country: '印度尼西亚', desc: '梯田 · 瑜伽 · 海神庙', img: 'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=600&q=80' },
-      '瑞士': { country: '瑞士', desc: '雪山 · 冰川湖泊 · 小火车', img: 'https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=600&q=80' },
-      '圣托里尼': { country: '希腊', desc: '蓝顶 · 落日 · 火山', img: 'https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=600&q=80' },
-      '撒哈拉': { country: '摩洛哥', desc: '沙漠 · 星空 · 骆驼', img: 'https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=600&q=80' },
-      '阿尔卑斯': { country: '瑞士', desc: '雪山 · 冰川湖泊 · 小火车', img: 'https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=600&q=80' },
-      '冰岛': { country: '冰岛', desc: '极光 · 冰川 · 温泉', img: 'https://images.unsplash.com/photo-1504829857797-ddff29c27927?w=600&q=80' },
-      '巴黎': { country: '法国', desc: '铁塔 · 塞纳河 · 博物馆', img: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600&q=80' },
-      '马尔代夫': { country: '马尔代夫', desc: '水上屋 · 浮潜 · 落日', img: 'https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=600&q=80' },
-      '东京': { country: '日本', desc: '潮流 · 寺庙 · 美食', img: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=600&q=80' },
+      '京都': {
+        country: '日本', desc: '千年古都，禅意之城', img: 'https://images.unsplash.com/photo-1528164344705-47542687000d?w=600&q=80',
+        highlights: ['清水寺日出参拜', '岚山竹林漫步', '茶道体验', '和服换装巡游', '锦市场美食探秘', '伏见稻荷千本鸟居'],
+        itineraries: [{ title: '京都深度文化之旅', duration: '5天4晚', price: '¥8,299',
+          days: [
+            { day: 'D1', title: '抵达·祇园初印象', desc: '抵达关西机场，专车接送至祇园传统町屋旅馆。傍晚漫步花见小路，欣赏艺伎文化，在先斗町品尝京料理。' },
+            { day: 'D2', title: '寺庙巡礼', desc: '清晨前往清水寺看日出，随后走访金阁寺、龙安寺枯山水庭园。下午在禅寺体验坐禅冥想，晚上参加茶道体验。' },
+            { day: 'D3', title: '岚山·竹林秘境', desc: '乘坐嵯峨野小火车穿越山谷，漫步岚山竹林。体验和服换装，在渡月桥畔享用汤豆腐料理。下午参观天龙寺庭园。' },
+            { day: 'D4', title: '伏见稻荷·市井烟火', desc: '攀登伏见稻荷大社千本鸟居，中午在锦市场品尝各种小吃——抹茶冰淇淋、渍物、新鲜刺身。下午自由探索或体验手作京扇子。' },
+            { day: 'D5', title: '告别·宇治抹茶', desc: '前往宇治参观平等院凤凰堂，品尝正宗宇治抹茶。之后专车送至关西机场，带着京都的宁静记忆启程回家。' },
+          ]
+        }]
+      },
+      '巴厘岛': {
+        country: '印度尼西亚', desc: '众神之岛，身心疗愈', img: 'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=600&q=80',
+        highlights: ['乌布梯田瑜伽', '海神庙日落', '火山日出徒步', '传统SPA疗愈', '冲浪课程', '巴厘岛烹饪课'],
+        itineraries: [{ title: '巴厘岛身心疗愈之旅', duration: '6天5晚', price: '¥7,499',
+          days: [
+            { day: 'D1', title: '抵达·南湾海滩', desc: '专车接机，入住海景别墅。傍晚在金巴兰海滩享用海鲜烧烤晚餐，看印度洋日落。' },
+            { day: 'D2', title: '乌布·梯田与艺术', desc: '前往乌布，参观德格拉朗梯田，体验清晨瑜伽。下午走访乌布皇宫和传统艺术市场，晚上观赏克差舞表演。' },
+            { day: 'D3', title: '火山日出·温泉疗愈', desc: '凌晨出发攀登巴图尔火山看日出，在山顶享用早餐。下午前往天然温泉，体验传统巴厘岛SPA。' },
+            { day: 'D4', title: '海神庙·文化沉浸', desc: '参观海神庙和塔曼阿尤皇家花园。下午参加巴厘岛烹饪课程，学习制作当地特色菜肴。' },
+            { day: 'D5', title: '蓝梦岛·海上冒险', desc: '乘船前往蓝梦岛，浮潜观赏珊瑚和热带鱼。下午在恶魔之泪观景，享受海岛悠闲时光。' },
+            { day: 'D6', title: '告别·自由时光', desc: '上午自由活动——可以做SPA、逛精品店或在泳池放松。下午专车送机，带着满满能量回家。' },
+          ]
+        }]
+      },
+      '瑞士': {
+        country: '瑞士', desc: '阿尔卑斯的极致浪漫', img: 'https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=600&q=80',
+        highlights: ['少女峰齿轮火车', '琉森湖游船', '因特拉肯滑翔伞', '奶酪火锅体验', '冰川快车全景列车', '采尔马特马特洪峰'],
+        itineraries: [{ title: '瑞士阿尔卑斯环线', duration: '7天6晚', price: '¥18,999',
+          days: [
+            { day: 'D1', title: '抵达·苏黎世', desc: '抵达苏黎世，入住老城区酒店。漫步班霍夫大街，游览苏黎世湖畔，在老城区品尝瑞士巧克力。' },
+            { day: 'D2', title: '琉森·湖光山色', desc: '乘坐火车前往琉森，游览卡佩尔廊桥和狮子纪念碑。下午乘游船巡游琉森湖，欣赏四森林州湖的绝美风光。' },
+            { day: 'D3', title: '少女峰·欧洲之巅', desc: '乘坐齿轮火车登上少女峰（海拔3454米），在斯芬克斯观景台俯瞰阿莱奇冰川。体验冰宫隧道，感受冰雪世界。' },
+            { day: 'D4', title: '因特拉肯·冒险天堂', desc: '上午在因特拉肯体验滑翔伞，从空中俯瞰图恩湖和布里恩茨湖。下午漫步小镇，品尝正宗瑞士奶酪火锅。' },
+            { day: 'D5', title: '采尔马特·马特洪峰', desc: '乘坐冰川快车前往采尔马特，这座无车小镇正对着标志性的马特洪峰。乘坐缆车登上海拔3883米的小马特洪峰观景台。' },
+            { day: 'D6', title: '日内瓦·湖畔漫步', desc: '前往日内瓦，游览大喷泉和花钟。在老城区品味瑞士钟表文化，傍晚在日内瓦湖畔享用晚餐。' },
+            { day: 'D7', title: '告别·启程', desc: '上午自由活动，选购瑞士手表和巧克力作为伴手礼。专车送至机场，带着阿尔卑斯的记忆启程回家。' },
+          ]
+        }]
+      },
+      '圣托里尼': {
+        country: '希腊', desc: '爱琴海的蓝白之梦', img: 'https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=600&q=80',
+        highlights: ['伊亚日落观赏', '火山岛游船', '黑沙滩温泉', '酒庄品鉴', '悬崖餐厅晚餐', '帆船环岛之旅'],
+        itineraries: [{ title: '圣托里尼浪漫之旅', duration: '5天4晚', price: '¥12,599',
+          days: [
+            { day: 'D1', title: '抵达·费拉小镇', desc: '抵达圣托里尼，入住悬崖酒店无边泳池房。傍晚漫步费拉小镇，欣赏爱琴海日落，在悬崖餐厅享用第一顿希腊晚餐。' },
+            { day: 'D2', title: '伊亚·最美日落', desc: '上午游览伊亚小镇，穿梭在蓝顶白墙之间。下午参观海军博物馆，在著名的日落观景台等待世界最美日落。' },
+            { day: 'D3', title: '火山岛·温泉游船', desc: '乘船前往火山岛，徒步登上火山口。随后在温泉海域游泳，船上享用新鲜海鲜午餐，途经红沙滩和白沙滩。' },
+            { day: 'D4', title: '酒庄·自由时光', desc: '上午参观圣托里尼火山岩酒庄，品鉴当地特色葡萄酒。下午自由活动——可以去黑沙滩、逛精品店或享受酒店SPA。' },
+            { day: 'D5', title: '告别·爱琴海', desc: '最后的清晨，在无边泳池边享用早餐，拍摄最后一张蓝白照片。专车送至机场，带着爱琴海的浪漫启程。' },
+          ]
+        }]
+      },
+      '撒哈拉': {
+        country: '摩洛哥', desc: '星空下的沙漠奇旅', img: 'https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=600&q=80',
+        highlights: ['骆驼穿越沙丘', '沙漠星空露营', '马拉喀什老城', '柏柏尔文化体验', '菲斯古城迷宫', '舍夫沙万蓝色小镇'],
+        itineraries: [{ title: '摩洛哥撒哈拉深度之旅', duration: '7天6晚', price: '¥11,999',
+          days: [
+            { day: 'D1', title: '抵达·马拉喀什', desc: '抵达马拉喀什，入住传统庭院Riad。傍晚前往德吉玛广场，感受千年不灭的市集烟火——耍蛇人、香料摊、鲜榨果汁。' },
+            { day: 'D2', title: '阿特拉斯山脉', desc: '穿越阿特拉斯山脉，途经古老的柏柏尔村庄。在托德拉峡谷徒步，感受大自然的鬼斧神工。' },
+            { day: 'D3', title: '撒哈拉·骆驼之旅', desc: '抵达梅尔祖卡，骑骆驼进入撒哈拉沙漠深处。在金色沙丘上等待日落，入住豪华沙漠帐篷营地。' },
+            { day: 'D4', title: '沙漠星空·柏柏尔之夜', desc: '凌晨登上沙丘看日出。白天体验沙漠冲沙和柏柏尔人营地。晚上在篝火旁仰望银河，这是你见过最震撼的星空。' },
+            { day: 'D5', title: '菲斯·千年迷宫', desc: '前往菲斯古城，这是世界上最大的无车城区。穿梭在9000多条小巷组成的迷宫中，探访皮革染坊和铜器工坊。' },
+            { day: 'D6', title: '舍夫沙万·蓝色秘境', desc: '前往蓝色小镇舍夫沙万，整座小镇被涂成各种蓝色。在蓝色巷弄中拍照、品尝薄荷茶、选购手工艺品。' },
+            { day: 'D7', title: '告别·卡萨布兰卡', desc: '前往卡萨布兰卡参观哈桑二世清真寺。在海滨大道享用最后一顿摩洛哥塔吉锅，之后送机启程。' },
+          ]
+        }]
+      },
+      '阿尔卑斯': {
+        country: '瑞士', desc: '雪山 · 冰川湖泊 · 小火车', img: 'https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=600&q=80',
+        highlights: ['少女峰齿轮火车', '琉森湖游船', '因特拉肯滑翔伞', '奶酪火锅体验'],
+      },
+      '冰岛': {
+        country: '冰岛', desc: '极光 · 冰川 · 温泉', img: 'https://images.unsplash.com/photo-1504829857797-ddff29c27927?w=600&q=80',
+        highlights: ['蓝湖温泉', '黄金圈经典路线', '冰川徒步', '极光猎人之旅', '黑沙滩', '瓦特纳冰洞探险'],
+        itineraries: [{ title: '冰岛环岛极光之旅', duration: '8天7晚', price: '¥22,999',
+          days: [
+            { day: 'D1', title: '抵达·雷克雅未克', desc: '抵达冰岛首都，入住市中心酒店。漫步彩色老城，品尝冰岛特色龙虾汤。' },
+            { day: 'D2', title: '黄金圈', desc: '经典黄金圈：辛格维利尔国家公园、盖歇尔间歇泉、黄金瀑布。晚上前往蓝湖温泉泡汤。' },
+            { day: 'D3', title: '南海岸·黑沙滩', desc: '沿南海岸前行，探访塞里雅兰瀑布和斯科加瀑布。在黑沙滩感受大西洋的狂野。' },
+            { day: 'D4', title: '冰川徒步', desc: '在专业向导带领下踏上冰川，探索蓝色冰洞。这是一生难忘的冰雪奇缘。' },
+            { day: 'D5', title: '东部峡湾', desc: '穿越冰岛东部峡湾，这里是游客最少的区域。沿途可能遇到驯鹿和海豹。' },
+            { day: 'D6', title: '米湖·北部', desc: '游览米湖地热区和众神瀑布。在阿克雷里体验鲸鱼观赏。' },
+            { day: 'D7', title: '极光之夜', desc: '返回雷克雅未克途中，远离光污染等待极光。在专业极光向导带领下，追逐那抹绿色光幕。' },
+            { day: 'D8', title: '告别·启程', desc: '上午自由活动，选购冰岛羊毛制品。送机启程，带着极光的回忆回家。' },
+          ]
+        }]
+      },
+      '巴黎': {
+        country: '法国', desc: '铁塔 · 塞纳河 · 博物馆', img: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600&q=80',
+        highlights: ['埃菲尔铁塔日落', '卢浮宫深度讲解', '塞纳河游船晚餐', '凡尔赛宫一日游', '蒙马特高地漫步', '米其林餐厅体验'],
+      },
+      '马尔代夫': {
+        country: '马尔代夫', desc: '水上屋 · 浮潜 · 落日', img: 'https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=600&q=80',
+        highlights: ['水上别墅私人泳池', '浮潜珊瑚花园', '日落海豚巡游', '水下餐厅用餐', '无人岛野餐', '深潜体验'],
+      },
+      '东京': {
+        country: '日本', desc: '潮流 · 寺庙 · 美食', img: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=600&q=80',
+        highlights: ['筑地市场美食', '浅草寺和服体验', '涩谷十字路口', '秋叶原动漫文化', '新宿夜景', '箱根温泉一日游'],
+      },
     };
 
     function doSearch() {
@@ -1406,24 +1498,158 @@
       const existing = document.getElementById('searchResult');
       if (existing) existing.remove();
 
+      const itineraries = d.itineraries || [{
+        title: `${name}经典之旅`, duration: '5天4晚', price: '¥6,999',
+        days: [
+          { day: 'D1', title: '抵达 · 初识', desc: '抵达目的地，入住精选酒店，漫步当地街区，品尝第一顿地道美食。' },
+          { day: 'D2', title: '深度探索', desc: '跟随本地向导探访标志性景点与隐藏秘境，深入了解当地文化与历史。' },
+          { day: 'D3', title: '沉浸体验', desc: '参加特色工坊或户外活动——烹饪课程、手作体验、徒步探索，感受在地生活。' },
+          { day: 'D4', title: '自由漫游', desc: '自由活动日：可以继续探索，也可以在酒店享受悠闲时光，按自己的节奏来。' },
+          { day: 'D5', title: '告别 · 启程', desc: '最后的晨间漫步，选购伴手礼，带着满满回忆踏上归途。' },
+        ]
+      }];
+
+      const highlights = d.highlights || ['当地向导全程陪同', '精选特色住宿', '每日早餐 included', '24小时旅行支援', '专属行程定制', '机场接送服务'];
+
       const el = document.createElement('div');
       el.id = 'searchResult';
-      el.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;display:flex;align-items:center;justify-content:center;background:rgba(26,21,16,0.85);backdrop-filter:blur(20px);opacity:0;transition:opacity 0.4s;';
+      el.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;overflow-y:auto;background:var(--color-bg);';
       el.innerHTML = `
-        <div style="max-width:700px;width:90%;text-align:center;color:#faf7f0;">
-          <p style="font-size:0.7rem;letter-spacing:0.25em;text-transform:uppercase;color:#d4c5a9;margin-bottom:0.8rem;">${d.country}</p>
-          <h2 style="font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);margin-bottom:0.8rem;">${name}</h2>
-          <p style="color:rgba(250,247,240,0.6);margin-bottom:2rem;">${d.desc}</p>
-          <img src="${d.img}" alt="${name}" style="width:100%;max-height:400px;object-fit:cover;border-radius:8px;margin-bottom:2rem;">
-          <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
-            <button onclick="this.closest('#searchResult').remove()" style="padding:0.9rem 2.5rem;background:#c45d3e;color:#faf7f0;border:none;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;">查看行程</button>
-            <button onclick="this.closest('#searchResult').remove()" style="padding:0.9rem 2.5rem;background:transparent;color:#faf7f0;border:1px solid rgba(250,247,240,0.25);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:0.85rem;cursor:pointer;">返回</button>
+        <style>
+          #searchResult * { box-sizing: border-box; }
+          #searchResult .sr-hero {
+            position: relative; height: 55vh; min-height: 360px; overflow: hidden;
+          }
+          #searchResult .sr-hero img {
+            width: 100%; height: 100%; object-fit: cover;
+          }
+          #searchResult .sr-hero-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(26,21,16,0.8) 0%, rgba(26,21,16,0.1) 50%);
+            display: flex; flex-direction: column; justify-content: flex-end; padding: 3rem;
+          }
+          #searchResult .sr-close {
+            position: fixed; top: 1.5rem; right: 1.5rem; z-index: 210;
+            width: 44px; height: 44px; border-radius: 50%;
+            background: rgba(26,21,16,0.5); backdrop-filter: blur(10px);
+            border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; color: #faf7f0; transition: background 0.3s;
+          }
+          #searchResult .sr-close:hover { background: rgba(196,93,62,0.8); }
+          #searchResult .sr-body {
+            max-width: 960px; margin: 0 auto; padding: 3rem 2rem;
+          }
+          #searchResult .sr-section-label {
+            font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase;
+            color: #c45d3e; margin-bottom: 0.6rem;
+          }
+          #searchResult .sr-section-title {
+            font-family: 'Playfair Display', serif; font-size: 1.8rem;
+            margin-bottom: 1.5rem; color: #2c2418;
+          }
+          #searchResult .sr-highlights {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+            gap: 1rem; margin-bottom: 3rem;
+          }
+          #searchResult .sr-hl-item {
+            padding: 1.2rem; background: #ede6d8; border-radius: 6px;
+            font-size: 0.9rem; color: #2c2418;
+          }
+          #searchResult .sr-hl-item::before {
+            content: '✓ '; color: #c45d3e; font-weight: 700;
+          }
+          #searchResult .sr-timeline {
+            position: relative; padding-left: 2.5rem; margin-bottom: 3rem;
+          }
+          #searchResult .sr-timeline::before {
+            content: ''; position: absolute; left: 0.6rem; top: 0; bottom: 0;
+            width: 2px; background: #d4c5a9;
+          }
+          #searchResult .sr-day {
+            position: relative; margin-bottom: 2rem; padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(212,197,169,0.3);
+          }
+          #searchResult .sr-day:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+          #searchResult .sr-day::before {
+            content: ''; position: absolute; left: -2.5rem; top: 0.3rem;
+            width: 12px; height: 12px; border-radius: 50%;
+            background: #c45d3e; border: 3px solid #f5f0e8;
+          }
+          #searchResult .sr-day-num {
+            font-family: 'Playfair Display', serif; font-size: 0.85rem;
+            font-weight: 700; color: #c45d3e; margin-bottom: 0.3rem;
+          }
+          #searchResult .sr-day-title {
+            font-size: 1.1rem; font-weight: 500; margin-bottom: 0.4rem;
+          }
+          #searchResult .sr-day-desc {
+            font-size: 0.9rem; color: #7a6e5d; line-height: 1.7;
+          }
+          #searchResult .sr-pricing {
+            background: #ede6d8; border-radius: 8px; padding: 2.5rem;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 1.5rem;
+          }
+          #searchResult .sr-price-big {
+            font-family: 'Playfair Display', serif; font-size: 2.5rem;
+            font-weight: 700; color: #c45d3e;
+          }
+          #searchResult .sr-price-note {
+            font-size: 0.8rem; color: #7a6e5d; margin-top: 0.2rem;
+          }
+          #searchResult .sr-book-btn {
+            padding: 1rem 3rem; background: #c45d3e; color: #faf7f0;
+            border: none; border-radius: 4px; font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem; font-weight: 500; letter-spacing: 0.08em;
+            text-transform: uppercase; cursor: pointer; transition: background 0.3s;
+          }
+          #searchResult .sr-book-btn:hover { background: #a04830; }
+          @media (max-width: 768px) {
+            #searchResult .sr-hero { height: 40vh; }
+            #searchResult .sr-hero-overlay { padding: 2rem 1.5rem; }
+            #searchResult .sr-body { padding: 2rem 1.5rem; }
+            #searchResult .sr-pricing { flex-direction: column; text-align: center; }
+          }
+        </style>
+        <button class="sr-close" onclick="document.getElementById('searchResult').remove()">✕</button>
+        <div class="sr-hero">
+          <img src="${d.img}" alt="${name}">
+          <div class="sr-hero-overlay">
+            <p style="font-size:0.7rem;letter-spacing:0.25em;text-transform:uppercase;color:#d4c5a9;margin-bottom:0.5rem;">${d.country}</p>
+            <h1 style="font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);color:#faf7f0;margin-bottom:0.5rem;">${name}</h1>
+            <p style="color:rgba(250,247,240,0.6);font-size:1rem;">${d.desc}</p>
+          </div>
+        </div>
+        <div class="sr-body">
+          <p class="sr-section-label">行程亮点</p>
+          <h2 class="sr-section-title">为什么选择这里</h2>
+          <div class="sr-highlights">
+            ${highlights.map(h => `<div class="sr-hl-item">${h}</div>`).join('')}
+          </div>
+
+          <p class="sr-section-label">推荐行程</p>
+          <h2 class="sr-section-title">${itineraries[0].title} · ${itineraries[0].duration}</h2>
+          <div class="sr-timeline">
+            ${itineraries[0].days.map(d => `
+              <div class="sr-day">
+                <div class="sr-day-num">${d.day}</div>
+                <div class="sr-day-title">${d.title}</div>
+                <div class="sr-day-desc">${d.desc}</div>
+              </div>
+            `).join('')}
+          </div>
+
+          <div class="sr-pricing">
+            <div>
+              <div class="sr-price-big">${itineraries[0].price}</div>
+              <div class="sr-price-note">每人起 · 含住宿、导游、每日早餐</div>
+            </div>
+            <button class="sr-book-btn" onclick="alert('🎉 预订请求已提交！我们的旅行顾问将在24小时内与您联系。')">立即预订</button>
           </div>
         </div>
       `;
       document.body.appendChild(el);
-      requestAnimationFrame(() => el.style.opacity = '1');
-      el.addEventListener('click', (e) => { if (e.target === el) el.remove(); });
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     document.getElementById('searchInput').addEventListener('keydown', (e) => {
