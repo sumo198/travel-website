@@ -193,6 +193,81 @@
       animation: fadeSlideUp 1s 0.7s ease-out forwards;
     }
 
+    .hero-search {
+      margin-top: 2rem;
+      opacity: 0;
+      animation: fadeSlideUp 1s 0.9s ease-out forwards;
+    }
+
+    .search-box {
+      display: flex;
+      background: rgba(250,247,240,0.12);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(250,247,240,0.18);
+      border-radius: 6px;
+      overflow: hidden;
+      max-width: 600px;
+    }
+
+    .search-box input {
+      flex: 1;
+      padding: 1rem 1.4rem;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--color-cream);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+    }
+
+    .search-box input::placeholder {
+      color: rgba(250,247,240,0.45);
+    }
+
+    .search-box button {
+      padding: 1rem 2rem;
+      background: var(--color-accent);
+      color: var(--color-cream);
+      border: none;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.3s;
+      white-space: nowrap;
+    }
+
+    .search-box button:hover {
+      background: var(--color-accent-deep);
+    }
+
+    .search-tags {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .search-tag {
+      padding: 0.3rem 0.8rem;
+      background: rgba(250,247,240,0.1);
+      border: 1px solid rgba(250,247,240,0.15);
+      border-radius: 20px;
+      font-size: 0.72rem;
+      color: rgba(250,247,240,0.6);
+      cursor: pointer;
+      transition: all 0.3s;
+      letter-spacing: 0.05em;
+    }
+
+    .search-tag:hover {
+      background: rgba(250,247,240,0.2);
+      color: var(--color-cream);
+      border-color: rgba(250,247,240,0.3);
+    }
+
     .hero-scroll {
       position: absolute;
       bottom: 2rem;
@@ -208,7 +283,7 @@
       letter-spacing: 0.2em;
       text-transform: uppercase;
       opacity: 0;
-      animation: fadeIn 1s 1.2s ease-out forwards;
+      animation: fadeIn 1s 1.4s ease-out forwards;
     }
 
     .hero-scroll-line {
@@ -927,6 +1002,19 @@
       <p class="hero-tag">✦ 探索未知的边界</p>
       <h1 class="hero-title">世界是一本<br>打开的<em>诗集</em></h1>
       <p class="hero-desc">每一次出发，都是与自己的一场深度对话。我们不只规划路线，我们为你编织值得反复回味的旅行叙事。</p>
+      <div class="hero-search">
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="搜索目的地、城市或体验...">
+          <button onclick="doSearch()">探索</button>
+        </div>
+        <div class="search-tags">
+          <span class="search-tag" onclick="quickSearch('京都')">🏯 京都</span>
+          <span class="search-tag" onclick="quickSearch('巴厘岛')">🌴 巴厘岛</span>
+          <span class="search-tag" onclick="quickSearch('瑞士')">🏔 瑞士</span>
+          <span class="search-tag" onclick="quickSearch('圣托里尼')">🌅 圣托里尼</span>
+          <span class="search-tag" onclick="quickSearch('撒哈拉')">🐪 撒哈拉</span>
+        </div>
+      </div>
     </div>
     <div class="hero-scroll">
       <span>向下探索</span>
@@ -1280,6 +1368,67 @@
     }, { threshold: 0.5 });
 
     counters.forEach(el => counterObserver.observe(el));
+
+    // ═══════════════════════════════════
+    // SEARCH
+    // ═══════════════════════════════════
+    const destinations = {
+      '京都': { country: '日本', desc: '古寺 · 庭园 · 抹茶', img: 'https://images.unsplash.com/photo-1528164344705-47542687000d?w=600&q=80' },
+      '巴厘岛': { country: '印度尼西亚', desc: '梯田 · 瑜伽 · 海神庙', img: 'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=600&q=80' },
+      '瑞士': { country: '瑞士', desc: '雪山 · 冰川湖泊 · 小火车', img: 'https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=600&q=80' },
+      '圣托里尼': { country: '希腊', desc: '蓝顶 · 落日 · 火山', img: 'https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=600&q=80' },
+      '撒哈拉': { country: '摩洛哥', desc: '沙漠 · 星空 · 骆驼', img: 'https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=600&q=80' },
+      '阿尔卑斯': { country: '瑞士', desc: '雪山 · 冰川湖泊 · 小火车', img: 'https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=600&q=80' },
+      '冰岛': { country: '冰岛', desc: '极光 · 冰川 · 温泉', img: 'https://images.unsplash.com/photo-1504829857797-ddff29c27927?w=600&q=80' },
+      '巴黎': { country: '法国', desc: '铁塔 · 塞纳河 · 博物馆', img: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600&q=80' },
+      '马尔代夫': { country: '马尔代夫', desc: '水上屋 · 浮潜 · 落日', img: 'https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=600&q=80' },
+      '东京': { country: '日本', desc: '潮流 · 寺庙 · 美食', img: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=600&q=80' },
+    };
+
+    function doSearch() {
+      const q = document.getElementById('searchInput').value.trim();
+      if (!q) return;
+      const match = Object.entries(destinations).find(([k]) => k.includes(q) || q.includes(k));
+      if (match) {
+        showSearchResult(match[0], match[1]);
+      } else {
+        showSearchResult(q, { country: '全球', desc: '正在为你搜索最佳旅行方案...', img: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600&q=80' });
+      }
+    }
+
+    function quickSearch(name) {
+      document.getElementById('searchInput').value = name;
+      const d = destinations[name];
+      if (d) showSearchResult(name, d);
+    }
+
+    function showSearchResult(name, d) {
+      const existing = document.getElementById('searchResult');
+      if (existing) existing.remove();
+
+      const el = document.createElement('div');
+      el.id = 'searchResult';
+      el.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;z-index:200;display:flex;align-items:center;justify-content:center;background:rgba(26,21,16,0.85);backdrop-filter:blur(20px);opacity:0;transition:opacity 0.4s;';
+      el.innerHTML = `
+        <div style="max-width:700px;width:90%;text-align:center;color:#faf7f0;">
+          <p style="font-size:0.7rem;letter-spacing:0.25em;text-transform:uppercase;color:#d4c5a9;margin-bottom:0.8rem;">${d.country}</p>
+          <h2 style="font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);margin-bottom:0.8rem;">${name}</h2>
+          <p style="color:rgba(250,247,240,0.6);margin-bottom:2rem;">${d.desc}</p>
+          <img src="${d.img}" alt="${name}" style="width:100%;max-height:400px;object-fit:cover;border-radius:8px;margin-bottom:2rem;">
+          <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+            <button onclick="this.closest('#searchResult').remove()" style="padding:0.9rem 2.5rem;background:#c45d3e;color:#faf7f0;border:none;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;">查看行程</button>
+            <button onclick="this.closest('#searchResult').remove()" style="padding:0.9rem 2.5rem;background:transparent;color:#faf7f0;border:1px solid rgba(250,247,240,0.25);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:0.85rem;cursor:pointer;">返回</button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(el);
+      requestAnimationFrame(() => el.style.opacity = '1');
+      el.addEventListener('click', (e) => { if (e.target === el) el.remove(); });
+    }
+
+    document.getElementById('searchInput').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') doSearch();
+    });
 
     // ═══════════════════════════════════
     // SMOOTH SCROLL FOR NAV LINKS
