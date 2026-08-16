@@ -1,1024 +1,1324 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>探索世界 - 发现你的下一段旅程</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-            color: #333;
-            overflow-x: hidden;
-        }
-
-        /* 导航栏 */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 20px 60px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
-
-        nav.scrolled {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 15px 60px;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-        }
-
-        .logo {
-            font-size: 28px;
-            font-weight: 700;
-            color: white;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        nav.scrolled .logo {
-            color: #2c3e50;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 40px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: white;
-            font-weight: 500;
-            font-size: 16px;
-            transition: all 0.3s;
-            position: relative;
-        }
-
-        nav.scrolled .nav-links a {
-            color: #555;
-        }
-
-        .nav-links a:hover {
-            color: #3498db;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #3498db;
-            transition: width 0.3s;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        /* Hero 区域 */
-        .hero {
-            height: 100vh;
-            background: linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.2)),
-                        url('https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=1920') center/cover;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: white;
-        }
-
-        .hero-content h1 {
-            font-size: 72px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
-            animation: fadeInUp 1s ease;
-        }
-
-        .hero-content p {
-            font-size: 24px;
-            margin-bottom: 40px;
-            opacity: 0.9;
-            animation: fadeInUp 1s ease 0.2s both;
-        }
-
-        .search-box {
-            background: white;
-            border-radius: 50px;
-            padding: 8px 8px 8px 30px;
-            display: flex;
-            align-items: center;
-            max-width: 600px;
-            margin: 0 auto;
-            animation: fadeInUp 1s ease 0.4s both;
-        }
-
-        .search-box input {
-            flex: 1;
-            border: none;
-            outline: none;
-            font-size: 16px;
-            padding: 10px;
-            color: #333;
-        }
-
-        .search-box button {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            color: white;
-            border: none;
-            padding: 15px 35px;
-            border-radius: 50px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .search-box button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 20px rgba(52, 152, 219, 0.4);
-        }
-
-        /* 热门目的地 */
-        .section {
-            padding: 100px 60px;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .section-title h2 {
-            font-size: 42px;
-            color: #2c3e50;
-            margin-bottom: 15px;
-        }
-
-        .section-title p {
-            font-size: 18px;
-            color: #7f8c8d;
-        }
-
-        .destinations-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .destination-card {
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-            height: 400px;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .destination-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-        }
-
-        .destination-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-
-        .destination-card:hover img {
-            transform: scale(1.1);
-        }
-
-        .destination-info {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 30px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.8));
-            color: white;
-        }
-
-        .destination-info h3 {
-            font-size: 28px;
-            margin-bottom: 8px;
-        }
-
-        .destination-info p {
-            opacity: 0.9;
-            font-size: 15px;
-        }
-
-        .destination-price {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255,255,255,0.95);
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-weight: 600;
-            color: #e74c3c;
-        }
-
-        /* 特色体验 */
-        .experiences {
-            background: linear-gradient(135deg, #f5f7fa, #e4e8ec);
-        }
-
-        .experiences-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .experience-card {
-            background: white;
-            border-radius: 20px;
-            padding: 40px 30px;
-            text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .experience-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-        }
-
-        .experience-icon {
-            font-size: 50px;
-            margin-bottom: 20px;
-        }
-
-        .experience-card h3 {
-            font-size: 22px;
-            margin-bottom: 15px;
-            color: #2c3e50;
-        }
-
-        .experience-card p {
-            color: #7f8c8d;
-            line-height: 1.6;
-        }
-
-        /* 精选行程 */
-        .itineraries-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 30px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .itinerary-card {
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            transition: transform 0.3s;
-        }
-
-        .itinerary-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .itinerary-image {
-            height: 220px;
-            overflow: hidden;
-        }
-
-        .itinerary-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-
-        .itinerary-card:hover .itinerary-image img {
-            transform: scale(1.1);
-        }
-
-        .itinerary-content {
-            padding: 25px;
-        }
-
-        .itinerary-duration {
-            display: inline-block;
-            background: #ebf5fb;
-            color: #3498db;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-
-        .itinerary-content h3 {
-            font-size: 24px;
-            margin-bottom: 10px;
-            color: #2c3e50;
-        }
-
-        .itinerary-content p {
-            color: #7f8c8d;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .itinerary-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-        }
-
-        .itinerary-price {
-            font-size: 24px;
-            font-weight: 700;
-            color: #e74c3c;
-        }
-
-        .itinerary-price span {
-            font-size: 14px;
-            color: #999;
-            font-weight: 400;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            color: white;
-            border: none;
-            border-radius: 30px;
-            font-size: 16px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-
-        .btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 20px rgba(52, 152, 219, 0.4);
-        }
-
-        /* 旅行故事 */
-        .stories {
-            background: linear-gradient(135deg, #2c3e50, #3498db);
-            color: white;
-        }
-
-        .stories .section-title h2 {
-            color: white;
-        }
-
-        .stories .section-title p {
-            color: rgba(255,255,255,0.7);
-        }
-
-        .stories-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .story-card {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
-            border: 1px solid rgba(255,255,255,0.2);
-            transition: transform 0.3s, background 0.3s;
-        }
-
-        .story-card:hover {
-            transform: translateY(-5px);
-            background: rgba(255,255,255,0.15);
-        }
-
-        .story-author {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .story-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #e74c3c, #f39c12);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
-
-        .story-author-info h4 {
-            font-size: 16px;
-            margin-bottom: 3px;
-        }
-
-        .story-author-info p {
-            font-size: 13px;
-            opacity: 0.7;
-        }
-
-        .story-card blockquote {
-            font-style: italic;
-            line-height: 1.8;
-            opacity: 0.9;
-        }
-
-        /* 数据统计 */
-        .stats {
-            background: white;
-            padding: 80px 60px;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 40px;
-            max-width: 1000px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .stat-item h3 {
-            font-size: 48px;
-            color: #3498db;
-            margin-bottom: 10px;
-        }
-
-        .stat-item p {
-            color: #7f8c8d;
-            font-size: 16px;
-        }
-
-        /* 订阅区域 */
-        .newsletter {
-            background: linear-gradient(135deg, #f5f7fa, #e4e8ec);
-            padding: 80px 60px;
-            text-align: center;
-        }
-
-        .newsletter h2 {
-            font-size: 36px;
-            color: #2c3e50;
-            margin-bottom: 15px;
-        }
-
-        .newsletter p {
-            color: #7f8c8d;
-            margin-bottom: 30px;
-            font-size: 18px;
-        }
-
-        .newsletter-form {
-            display: flex;
-            max-width: 500px;
-            margin: 0 auto;
-            gap: 15px;
-        }
-
-        .newsletter-form input {
-            flex: 1;
-            padding: 15px 25px;
-            border: 2px solid #ddd;
-            border-radius: 50px;
-            font-size: 16px;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        .newsletter-form input:focus {
-            border-color: #3498db;
-        }
-
-        /* 页脚 */
-        footer {
-            background: #2c3e50;
-            color: white;
-            padding: 60px;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .footer-section h3 {
-            font-size: 18px;
-            margin-bottom: 20px;
-            color: #3498db;
-        }
-
-        .footer-section a {
-            display: block;
-            color: rgba(255,255,255,0.7);
-            text-decoration: none;
-            margin-bottom: 10px;
-            transition: color 0.3s;
-        }
-
-        .footer-section a:hover {
-            color: white;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            color: rgba(255,255,255,0.5);
-        }
-
-        /* 动画 */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* 响应式 */
-        @media (max-width: 1024px) {
-            .experiences-grid,
-            .stories-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .footer-content {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            nav {
-                padding: 15px 20px;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            .hero-content h1 {
-                font-size: 42px;
-            }
-            
-            .hero-content p {
-                font-size: 18px;
-            }
-            
-            .section {
-                padding: 60px 20px;
-            }
-            
-            .section-title h2 {
-                font-size: 32px;
-            }
-            
-            .destinations-grid,
-            .itineraries-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .experiences-grid,
-            .stories-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
-            }
-            
-            .stat-item h3 {
-                font-size: 36px;
-            }
-            
-            .newsletter-form {
-                flex-direction: column;
-            }
-            
-            .footer-content {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* 移动端菜单按钮 */
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 28px;
-            cursor: pointer;
-            color: white;
-        }
-
-        nav.scrolled .menu-toggle {
-            color: #2c3e50;
-        }
-
-        @media (max-width: 768px) {
-            .menu-toggle {
-                display: block;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>漫旅 — 发现世界的诗意</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Noto+Serif+SC:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════
+       RESET & BASE
+       ═══════════════════════════════════════ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --color-bg: #f5f0e8;
+      --color-bg-warm: #ede6d8;
+      --color-text: #2c2418;
+      --color-text-muted: #7a6e5d;
+      --color-accent: #c45d3e;
+      --color-accent-deep: #a04830;
+      --color-cream: #faf7f0;
+      --color-dark: #1a1510;
+      --color-sand: #d4c5a9;
+      --font-display: 'Playfair Display', 'Noto Serif SC', Georgia, serif;
+      --font-body: 'DM Sans', 'PingFang SC', -apple-system, sans-serif;
+      --font-serif-cn: 'Noto Serif SC', 'STSong', serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: clamp(15px, 1.1vw, 18px);
+    }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--color-text);
+      background: var(--color-bg);
+      line-height: 1.7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; height: auto; }
+
+    /* ═══════════════════════════════════════
+       NAVIGATION
+       ═══════════════════════════════════════ */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.5s, padding 0.4s, backdrop-filter 0.5s;
+    }
+
+    .nav.scrolled {
+      background: rgba(245, 240, 232, 0.85);
+      backdrop-filter: blur(20px);
+      padding: 1rem 3rem;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: var(--color-cream);
+      transition: color 0.5s;
+    }
+
+    .nav.scrolled .nav-logo { color: var(--color-text); }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .nav-links a {
+      color: var(--color-cream);
+      transition: color 0.3s, opacity 0.3s;
+      opacity: 0.8;
+    }
+
+    .nav-links a:hover { opacity: 1; }
+    .nav.scrolled .nav-links a { color: var(--color-text); }
+
+    .nav-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      width: 28px;
+      height: 20px;
+      position: relative;
+      z-index: 101;
+    }
+
+    .nav-menu-btn span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: var(--color-cream);
+      transition: all 0.3s;
+      position: absolute;
+      left: 0;
+    }
+
+    .nav.scrolled .nav-menu-btn span { background: var(--color-text); }
+    .nav-menu-btn span:nth-child(1) { top: 0; }
+    .nav-menu-btn span:nth-child(2) { top: 9px; }
+    .nav-menu-btn span:nth-child(3) { top: 18px; }
+
+    /* ═══════════════════════════════════════
+       HERO
+       ═══════════════════════════════════════ */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom, rgba(26,21,16,0.15) 0%, rgba(26,21,16,0) 40%, rgba(26,21,16,0.6) 100%),
+        url('https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=1920&q=80') center/cover no-repeat;
+      transform: scale(1.05);
+      animation: heroZoom 20s ease-out forwards;
+    }
+
+    @keyframes heroZoom {
+      to { transform: scale(1); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 0 3rem 5rem;
+      max-width: 800px;
+    }
+
+    .hero-tag {
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--color-sand);
+      margin-bottom: 1.2rem;
+      font-weight: 500;
+      opacity: 0;
+      animation: fadeSlideUp 1s 0.3s ease-out forwards;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 6vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--color-cream);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeSlideUp 1s 0.5s ease-out forwards;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--color-sand);
+    }
+
+    .hero-desc {
+      font-size: 1.1rem;
+      color: rgba(250,247,240,0.75);
+      max-width: 500px;
+      line-height: 1.8;
+      opacity: 0;
+      animation: fadeSlideUp 1s 0.7s ease-out forwards;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--color-cream);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeIn 1s 1.2s ease-out forwards;
+    }
+
+    .hero-scroll-line {
+      width: 1px;
+      height: 40px;
+      background: var(--color-cream);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
+      50% { opacity: 1; transform: scaleY(1); }
+    }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* ═══════════════════════════════════════
+       SECTION INTRO (shared)
+       ═══════════════════════════════════════ */
+    .section-intro {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 4rem;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .section-desc {
+      color: var(--color-text-muted);
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+
+    /* ═══════════════════════════════════════
+       FEATURED DESTINATIONS
+       ═══════════════════════════════════════ */
+    .destinations {
+      padding: 6rem 3rem;
+    }
+
+    .dest-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1.5rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .dest-card {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      aspect-ratio: 3/4;
+    }
+
+    .dest-card:nth-child(1) { grid-column: 1 / 6; grid-row: 1 / 3; aspect-ratio: auto; }
+    .dest-card:nth-child(2) { grid-column: 6 / 9; }
+    .dest-card:nth-child(3) { grid-column: 9 / 13; }
+    .dest-card:nth-child(4) { grid-column: 6 / 10; }
+    .dest-card:nth-child(5) { grid-column: 10 / 13; }
+
+    .dest-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .dest-card:hover img {
+      transform: scale(1.06);
+    }
+
+    .dest-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(26,21,16,0.75) 0%, rgba(26,21,16,0) 60%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 2rem;
+      transition: background 0.5s;
+    }
+
+    .dest-card:hover .dest-card-overlay {
+      background: linear-gradient(to top, rgba(26,21,16,0.85) 0%, rgba(26,21,16,0.1) 70%);
+    }
+
+    .dest-card-country {
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--color-sand);
+      margin-bottom: 0.4rem;
+    }
+
+    .dest-card-name {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-cream);
+      margin-bottom: 0.3rem;
+    }
+
+    .dest-card:nth-child(1) .dest-card-name { font-size: 2.2rem; }
+
+    .dest-card-meta {
+      font-size: 0.8rem;
+      color: rgba(250,247,240,0.6);
+    }
+
+    .dest-card-arrow {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(250,247,240,0.15);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .dest-card:hover .dest-card-arrow {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .dest-card-arrow svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--color-cream);
+      stroke-width: 2;
+      fill: none;
+    }
+
+    /* ═══════════════════════════════════════
+       EDITORIAL SPLIT SECTION
+       ═══════════════════════════════════════ */
+    .editorial {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 85vh;
+      max-width: 1400px;
+      margin: 0 auto;
+      gap: 0;
+    }
+
+    .editorial-image {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .editorial-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .editorial-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 5rem 4rem 5rem 3.5rem;
+      background: var(--color-bg-warm);
+    }
+
+    .editorial-quote {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+      font-style: italic;
+      line-height: 1.5;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .editorial-quote::before {
+      content: '"';
+      font-family: var(--font-display);
+      font-size: 6rem;
+      color: var(--color-accent);
+      opacity: 0.25;
+      position: absolute;
+      top: -2rem;
+      left: -0.5rem;
+      line-height: 1;
+    }
+
+    .editorial-author {
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      margin-bottom: 3rem;
+    }
+
+    .editorial-author strong {
+      color: var(--color-text);
+    }
+
+    .editorial-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .editorial-features li {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .editorial-features .ef-num {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--color-accent);
+      line-height: 1;
+      min-width: 2.5rem;
+    }
+
+    .editorial-features .ef-text h4 {
+      font-size: 1rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .editorial-features .ef-text p {
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+    }
+
+    /* ═══════════════════════════════════════
+       EXPERIENCES / ACTIVITIES
+       ═══════════════════════════════════════ */
+    .experiences {
+      padding: 7rem 3rem;
+      background: var(--color-dark);
+      color: var(--color-cream);
+    }
+
+    .experiences .section-label { color: var(--color-sand); }
+    .experiences .section-desc { color: rgba(250,247,240,0.55); }
+
+    .exp-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .exp-card {
+      position: relative;
+      padding: 2.5rem 2rem;
+      border: 1px solid rgba(250,247,240,0.08);
+      border-radius: 6px;
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .exp-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(196,93,62,0.12), transparent);
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    .exp-card:hover {
+      border-color: rgba(196,93,62,0.3);
+      transform: translateY(-4px);
+    }
+
+    .exp-card:hover::before { opacity: 1; }
+
+    .exp-icon {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    .exp-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .exp-card p {
+      font-size: 0.85rem;
+      color: rgba(250,247,240,0.5);
+      line-height: 1.7;
+    }
+
+    .exp-card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 1.5rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      font-weight: 500;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.4s 0.1s;
+    }
+
+    .exp-card:hover .exp-card-link {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ═══════════════════════════════════════
+       GALLERY MARQUEE
+       ═══════════════════════════════════════ */
+    .gallery {
+      padding: 5rem 0;
+      overflow: hidden;
+    }
+
+    .gallery-track {
+      display: flex;
+      gap: 1.5rem;
+      animation: marquee 40s linear infinite;
+      width: max-content;
+    }
+
+    .gallery-track:hover { animation-play-state: paused; }
+
+    .gallery-item {
+      flex-shrink: 0;
+      width: 350px;
+      height: 250px;
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s;
+    }
+
+    .gallery-item:hover img { transform: scale(1.08); }
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ═══════════════════════════════════════
+       STATS BAR
+       ═══════════════════════════════════════ */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 4rem 3rem;
+      gap: 2rem;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 4vw, 3.5rem);
+      font-weight: 700;
+      color: var(--color-accent);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ═══════════════════════════════════════
+       TESTIMONIALS
+       ═══════════════════════════════════════ */
+    .testimonials {
+      padding: 6rem 3rem;
+      background: var(--color-bg-warm);
+    }
+
+    .test-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .test-card {
+      background: var(--color-cream);
+      padding: 2.5rem;
+      border-radius: 6px;
+    }
+
+    .test-stars {
+      color: var(--color-accent);
+      font-size: 0.9rem;
+      letter-spacing: 0.15em;
+      margin-bottom: 1.2rem;
+    }
+
+    .test-text {
+      font-family: var(--font-serif-cn);
+      font-size: 0.95rem;
+      line-height: 1.9;
+      margin-bottom: 1.5rem;
+      color: var(--color-text);
+    }
+
+    .test-author {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .test-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--color-sand);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--color-dark);
+    }
+
+    .test-author-info .test-name {
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .test-author-info .test-trip {
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+    }
+
+    /* ═══════════════════════════════════════
+       CTA / NEWSLETTER
+       ═══════════════════════════════════════ */
+    .cta {
+      padding: 6rem 3rem;
+      text-align: center;
+    }
+
+    .cta-box {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .cta-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .cta-desc {
+      color: var(--color-text-muted);
+      margin-bottom: 2.5rem;
+      font-size: 1rem;
+    }
+
+    .cta-form {
+      display: flex;
+      gap: 0.75rem;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .cta-input {
+      flex: 1;
+      padding: 0.9rem 1.2rem;
+      border: 1px solid var(--color-sand);
+      border-radius: 4px;
+      background: var(--color-cream);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      color: var(--color-text);
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .cta-input::placeholder { color: var(--color-text-muted); opacity: 0.6; }
+    .cta-input:focus { border-color: var(--color-accent); }
+
+    .cta-btn {
+      padding: 0.9rem 2rem;
+      background: var(--color-accent);
+      color: var(--color-cream);
+      border: none;
+      border-radius: 4px;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+      white-space: nowrap;
+    }
+
+    .cta-btn:hover {
+      background: var(--color-accent-deep);
+      transform: translateY(-1px);
+    }
+
+    /* ═══════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════ */
+    .footer {
+      background: var(--color-dark);
+      color: var(--color-cream);
+      padding: 4rem 3rem 2rem;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      max-width: 1200px;
+      margin: 0 auto 3rem;
+    }
+
+    .footer-brand {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .footer-tagline {
+      font-size: 0.85rem;
+      color: rgba(250,247,240,0.45);
+      line-height: 1.7;
+      max-width: 280px;
+    }
+
+    .footer h4 {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+      color: rgba(250,247,240,0.6);
+    }
+
+    .footer ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .footer ul a {
+      font-size: 0.85rem;
+      color: rgba(250,247,240,0.4);
+      transition: color 0.3s;
+    }
+
+    .footer ul a:hover { color: var(--color-cream); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(250,247,240,0.08);
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      font-size: 0.75rem;
+      color: rgba(250,247,240,0.3);
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 1.2rem;
+    }
+
+    .footer-socials a {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid rgba(250,247,240,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+
+    .footer-socials a:hover {
+      border-color: var(--color-accent);
+      background: rgba(196,93,62,0.15);
+    }
+
+    /* ═══════════════════════════════════════
+       SCROLL REVEAL
+       ═══════════════════════════════════════ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ═══════════════════════════════════════
+       RESPONSIVE
+       ═══════════════════════════════════════ */
+    @media (max-width: 1024px) {
+      .exp-grid { grid-template-columns: repeat(2, 1fr); }
+      .editorial { grid-template-columns: 1fr; }
+      .editorial-image { height: 50vh; }
+      .editorial-text { padding: 3rem 2rem; }
+      .dest-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+      }
+      .dest-card:nth-child(1) { grid-column: 1 / 3; grid-row: auto; aspect-ratio: 16/9; }
+      .dest-card:nth-child(2),
+      .dest-card:nth-child(3),
+      .dest-card:nth-child(4),
+      .dest-card:nth-child(5) { grid-column: auto; grid-row: auto; }
+    }
+
+    @media (max-width: 768px) {
+      .nav { padding: 1.2rem 1.5rem; }
+      .nav.scrolled { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .nav-menu-btn { display: block; }
+      .hero-content { padding: 0 1.5rem 4rem; }
+      .destinations { padding: 4rem 1.5rem; }
+      .dest-grid { grid-template-columns: 1fr; }
+      .dest-card { aspect-ratio: 4/3 !important; }
+      .exp-grid { grid-template-columns: 1fr; }
+      .test-grid { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .cta-form { flex-direction: column; }
+      .gallery-item { width: 260px; height: 180px; }
+    }
+  </style>
 </head>
 <body>
-    <!-- 导航栏 -->
-    <nav id="navbar">
-        <a href="#" class="logo">✈️ 探索世界</a>
-        <ul class="nav-links">
-            <li><a href="#destinations">热门目的地</a></li>
-            <li><a href="#experiences">特色体验</a></li>
-            <li><a href="#itineraries">精选行程</a></li>
-            <li><a href="#stories">旅行故事</a></li>
-            <li><a href="#contact">联系我们</a></li>
+
+  <!-- NAVIGATION -->
+  <nav class="nav" id="nav">
+    <a href="#" class="nav-logo">漫旅 Wanderlust</a>
+    <ul class="nav-links">
+      <li><a href="#destinations">目的地</a></li>
+      <li><a href="#about">关于</a></li>
+      <li><a href="#experiences">体验</a></li>
+      <li><a href="#testimonials">评价</a></li>
+      <li><a href="#contact">联系我们</a></li>
+    </ul>
+    <button class="nav-menu-btn" aria-label="菜单">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <p class="hero-tag">✦ 探索未知的边界</p>
+      <h1 class="hero-title">世界是一本<br>打开的<em>诗集</em></h1>
+      <p class="hero-desc">每一次出发，都是与自己的一场深度对话。我们不只规划路线，我们为你编织值得反复回味的旅行叙事。</p>
+    </div>
+    <div class="hero-scroll">
+      <span>向下探索</span>
+      <div class="hero-scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="reveal">
+      <div class="stat-num" data-count="1200">0</div>
+      <div class="stat-label">定制行程</div>
+    </div>
+    <div class="reveal reveal-delay-1">
+      <div class="stat-num" data-count="86">0</div>
+      <div class="stat-label">覆盖国家</div>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <div class="stat-num" data-count="98">0</div>
+      <div class="stat-label">满意率 %</div>
+    </div>
+    <div class="reveal reveal-delay-3">
+      <div class="stat-num" data-count="15">0</div>
+      <div class="stat-label">年深耕</div>
+    </div>
+  </section>
+
+  <!-- DESTINATIONS -->
+  <section class="destinations" id="destinations">
+    <div class="section-intro reveal">
+      <p class="section-label">精选目的地</p>
+      <h2 class="section-title">去那些让心跳加速的地方</h2>
+      <p class="section-desc">从极光下的冰川到赤道旁的雨林，我们精选全球最令人心动的目的地，每一处都经过实地探访与深度体验。</p>
+    </div>
+
+    <div class="dest-grid">
+      <div class="dest-card reveal">
+        <img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=900&q=80" alt="瑞士阿尔卑斯" loading="lazy">
+        <div class="dest-card-overlay">
+          <span class="dest-card-country">瑞士</span>
+          <h3 class="dest-card-name">阿尔卑斯山脊</h3>
+          <p class="dest-card-meta">雪山 · 冰川湖泊 · 小火车</p>
+        </div>
+        <div class="dest-card-arrow">
+          <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+        </div>
+      </div>
+
+      <div class="dest-card reveal reveal-delay-1">
+        <img src="https://images.unsplash.com/photo-1528164344705-47542687000d?w=600&q=80" alt="京都" loading="lazy">
+        <div class="dest-card-overlay">
+          <span class="dest-card-country">日本</span>
+          <h3 class="dest-card-name">京都</h3>
+          <p class="dest-card-meta">古寺 · 庭园 · 抹茶</p>
+        </div>
+        <div class="dest-card-arrow">
+          <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+        </div>
+      </div>
+
+      <div class="dest-card reveal reveal-delay-2">
+        <img src="https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=600&q=80" alt="圣托里尼" loading="lazy">
+        <div class="dest-card-overlay">
+          <span class="dest-card-country">希腊</span>
+          <h3 class="dest-card-name">圣托里尼</h3>
+          <p class="dest-card-meta">蓝顶 · 落日 · 火山</p>
+        </div>
+        <div class="dest-card-arrow">
+          <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+        </div>
+      </div>
+
+      <div class="dest-card reveal reveal-delay-1">
+        <img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=600&q=80" alt="巴厘岛" loading="lazy">
+        <div class="dest-card-overlay">
+          <span class="dest-card-country">印度尼西亚</span>
+          <h3 class="dest-card-name">巴厘岛</h3>
+          <p class="dest-card-meta">梯田 · 瑜伽 · 海神庙</p>
+        </div>
+        <div class="dest-card-arrow">
+          <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+        </div>
+      </div>
+
+      <div class="dest-card reveal reveal-delay-2">
+        <img src="https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=600&q=80" alt="摩洛哥" loading="lazy">
+        <div class="dest-card-overlay">
+          <span class="dest-card-country">摩洛哥</span>
+          <h3 class="dest-card-name">撒哈拉</h3>
+          <p class="dest-card-meta">沙漠 · 星空 · 骆驼</p>
+        </div>
+        <div class="dest-card-arrow">
+          <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDITORIAL -->
+  <section class="editorial" id="about">
+    <div class="editorial-image">
+      <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=900&q=80" alt="旅行者" loading="lazy">
+    </div>
+    <div class="editorial-text reveal">
+      <blockquote class="editorial-quote">
+        旅行的意义不在于到达某个地方，而在于途中你变成了什么样的人。
+      </blockquote>
+      <p class="editorial-author">— <strong>马塞尔·普鲁斯特</strong></p>
+      <ul class="editorial-features">
+        <li>
+          <span class="ef-num">01</span>
+          <div class="ef-text">
+            <h4>深度定制</h4>
+            <p>每位旅行者都是独特的。我们根据你的兴趣、节奏和预算，量身打造专属行程。</p>
+          </div>
+        </li>
+        <li>
+          <span class="ef-num">02</span>
+          <div class="ef-text">
+            <h4>在地体验</h4>
+            <p>与当地向导同行，走进隐藏的街巷、私密的工作坊和只有本地人才知道的秘境。</p>
+          </div>
+        </li>
+        <li>
+          <span class="ef-num">03</span>
+          <div class="ef-text">
+            <h4>全程陪伴</h4>
+            <p>从出发前的签证指导到旅途中的即时支援，我们是你最可靠的旅行伙伴。</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- EXPERIENCES -->
+  <section class="experiences" id="experiences">
+    <div class="section-intro reveal">
+      <p class="section-label">主题体验</p>
+      <h2 class="section-title" style="color: var(--color-cream);">不只是旅行，是一种生活方式</h2>
+      <p class="section-desc">每一种体验都经过精心策划，让你的旅程超越观光，成为真正的生命体验。</p>
+    </div>
+
+    <div class="exp-grid">
+      <div class="exp-card reveal">
+        <span class="exp-icon">🏔</span>
+        <h3>极限探索</h3>
+        <p>攀登冰川、穿越雨林、潜入深海——突破舒适区，发现另一个自己。</p>
+        <span class="exp-card-link">了解更多 →</span>
+      </div>
+      <div class="exp-card reveal reveal-delay-1">
+        <span class="exp-icon">🍷</span>
+        <h3>味觉之旅</h3>
+        <p>从托斯卡纳的酒庄到东京的米其林，用味蕾丈量世界的广度与深度。</p>
+        <span class="exp-card-link">了解更多 →</span>
+      </div>
+      <div class="exp-card reveal reveal-delay-2">
+        <span class="exp-icon">🧘</span>
+        <h3>身心疗愈</h3>
+        <p>在巴厘岛的瑜伽营、冰岛的温泉、不丹的禅修中心，找回内在的宁静。</p>
+        <span class="exp-card-link">了解更多 →</span>
+      </div>
+      <div class="exp-card reveal reveal-delay-3">
+        <span class="exp-icon">📸</span>
+        <h3>影像叙事</h3>
+        <p>跟随专业摄影师，用镜头捕捉旅途中最动人的光影与瞬间。</p>
+        <span class="exp-card-link">了解更多 →</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY MARQUEE -->
+  <section class="gallery">
+    <div class="gallery-track">
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=700&q=80" alt="海滩" loading="lazy"></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=700&q=80" alt="湖泊" loading="lazy"></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=700&q=80" alt="巴黎" loading="lazy"></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=700&q=80" alt="意大利" loading="lazy"></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=700&q=80" alt="山景" loading="lazy"></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=700&q=80" alt="度假村" loading="lazy"></div>
+      <!-- duplicate for seamless loop -->
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=700&q=80" alt="海滩" loading="lazy"></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=700&q=80" alt="湖泊" loading="lazy"></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=700&q=80" alt="巴黎" loading="lazy"></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=700&q=80" alt="意大利" loading="lazy"></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=700&q=80" alt="山景" loading="lazy"></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=700&q=80" alt="度假村" loading="lazy"></div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials" id="testimonials">
+    <div class="section-intro reveal">
+      <p class="section-label">旅行者说</p>
+      <h2 class="section-title">他们的故事，从这里开始</h2>
+    </div>
+
+    <div class="test-grid">
+      <div class="test-card reveal">
+        <div class="test-stars">★★★★★</div>
+        <p class="test-text">「第一次有人把旅行安排得像一部电影。每天都有惊喜，每个细节都被照顾到了。冰岛的极光之夜，我这辈子都忘不了。」</p>
+        <div class="test-author">
+          <div class="test-avatar">林</div>
+          <div class="test-author-info">
+            <div class="test-name">林思远</div>
+            <div class="test-trip">冰岛环岛 · 2025 冬</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="test-card reveal reveal-delay-1">
+        <div class="test-stars">★★★★★</div>
+        <p class="test-text">「作为一个带两个孩子的妈妈，我最怕旅行变成赶场。但漫旅的团队让整个行程既轻松又丰富，孩子们玩得开心，我也终于度假了。」</p>
+        <div class="test-author">
+          <div class="test-avatar">陈</div>
+          <div class="test-author-info">
+            <div class="test-name">陈雨萱</div>
+            <div class="test-trip">新西兰亲子 · 2025 春</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="test-card reveal reveal-delay-2">
+        <div class="test-stars">★★★★★</div>
+        <p class="test-text">「他们推荐的那家京都茶室，地图上根本找不到。坐在里面喝抹茶的时候，我突然理解了什么叫'一期一会'。」</p>
+        <div class="test-author">
+          <div class="test-avatar">张</div>
+          <div class="test-author-info">
+            <div class="test-name">张默</div>
+            <div class="test-trip">日本深度 · 2024 秋</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="contact">
+    <div class="cta-box reveal">
+      <p class="section-label">开启旅程</p>
+      <h2 class="cta-title">下一段故事，由你执笔</h2>
+      <p class="cta-desc">留下你的邮箱，每周为你精选全球旅行灵感、独家折扣与限时体验。</p>
+      <form class="cta-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='已订阅 ✓'">
+        <input type="email" class="cta-input" placeholder="your@email.com" required>
+        <button type="submit" class="cta-btn">订阅</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">漫旅 Wanderlust</div>
+        <p class="footer-tagline">用脚步丈量世界，用心灵感受远方。每一次旅行，都是一场与美好不期而遇的冒险。</p>
+      </div>
+      <div>
+        <h4>目的地</h4>
+        <ul>
+          <li><a href="#">亚洲</a></li>
+          <li><a href="#">欧洲</a></li>
+          <li><a href="#">美洲</a></li>
+          <li><a href="#">非洲</a></li>
+          <li><a href="#">大洋洲</a></li>
         </ul>
-        <button class="menu-toggle">☰</button>
-    </nav>
+      </div>
+      <div>
+        <h4>体验</h4>
+        <ul>
+          <li><a href="#">极限探索</a></li>
+          <li><a href="#">味觉之旅</a></li>
+          <li><a href="#">身心疗愈</a></li>
+          <li><a href="#">影像叙事</a></li>
+          <li><a href="#">蜜月定制</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>关于</h4>
+        <ul>
+          <li><a href="#">我们的故事</a></li>
+          <li><a href="#">旅行达人</a></li>
+          <li><a href="#">合作伙伴</a></li>
+          <li><a href="#">加入我们</a></li>
+          <li><a href="#">联系客服</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 漫旅 Wanderlust. All rights reserved.</span>
+      <div class="footer-socials">
+        <a href="#" aria-label="微信">💬</a>
+        <a href="#" aria-label="微博">📱</a>
+        <a href="#" aria-label="小红书">📕</a>
+        <a href="#" aria-label="抖音">🎵</a>
+      </div>
+    </div>
+  </footer>
 
-    <!-- Hero 区域 -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>发现你的下一段旅程</h1>
-            <p>探索世界，遇见未知的自己</p>
-            <div class="search-box">
-                <input type="text" placeholder="搜索目的地、城市或景点...">
-                <button onclick="search()">探索</button>
-            </div>
-        </div>
-    </section>
+  <script>
+    // ═══════════════════════════════════
+    // NAV SCROLL
+    // ═══════════════════════════════════
+    const nav = document.getElementById('nav');
+    let lastScroll = 0;
 
-    <!-- 热门目的地 -->
-    <section class="section" id="destinations">
-        <div class="section-title fade-in">
-            <h2>热门目的地</h2>
-            <p>精选全球最受欢迎的旅行目的地</p>
-        </div>
-        <div class="destinations-grid">
-            <div class="destination-card fade-in">
-                <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800" alt="巴厘岛">
-                <div class="destination-price">¥5,999 起</div>
-                <div class="destination-info">
-                    <h3>巴厘岛</h3>
-                    <p>印尼 · 千庙之岛，度假天堂</p>
-                </div>
-            </div>
-            <div class="destination-card fade-in">
-                <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800" alt="巴黎">
-                <div class="destination-price">¥12,999 起</div>
-                <div class="destination-info">
-                    <h3>巴黎</h3>
-                    <p>法国 · 浪漫之都，艺术殿堂</p>
-                </div>
-            </div>
-            <div class="destination-card fade-in">
-                <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800" alt="东京">
-                <div class="destination-price">¥8,999 起</div>
-                <div class="destination-info">
-                    <h3>东京</h3>
-                    <p>日本 · 传统与现代的完美融合</p>
-                </div>
-            </div>
-            <div class="destination-card fade-in">
-                <img src="https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=800" alt="马尔代夫">
-                <div class="destination-price">¥15,999 起</div>
-                <div class="destination-info">
-                    <h3>马尔代夫</h3>
-                    <p>马尔代夫 · 人间天堂，水上别墅</p>
-                </div>
-            </div>
-            <div class="destination-card fade-in">
-                <img src="https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?w=800" alt="悉尼">
-                <div class="destination-price">¥10,999 起</div>
-                <div class="destination-info">
-                    <h3>悉尼</h3>
-                    <p>澳大利亚 · 阳光海港，活力之都</p>
-                </div>
-            </div>
-            <div class="destination-card fade-in">
-                <img src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=800" alt="三亚">
-                <div class="destination-price">¥3,999 起</div>
-                <div class="destination-info">
-                    <h3>三亚</h3>
-                    <p>中国 · 东方夏威夷，椰风海韵</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      nav.classList.toggle('scrolled', y > 80);
+      lastScroll = y;
+    }, { passive: true });
 
-    <!-- 特色体验 -->
-    <section class="section experiences" id="experiences">
-        <div class="section-title fade-in">
-            <h2>特色体验</h2>
-            <p>为你打造独一无二的旅行记忆</p>
-        </div>
-        <div class="experiences-grid">
-            <div class="experience-card fade-in">
-                <div class="experience-icon">🏔️</div>
-                <h3>户外探险</h3>
-                <p>徒步、攀岩、潜水，挑战自我极限</p>
-            </div>
-            <div class="experience-card fade-in">
-                <div class="experience-icon">🍜</div>
-                <h3>美食之旅</h3>
-                <p>品味地道美食，探索舌尖上的世界</p>
-            </div>
-            <div class="experience-card fade-in">
-                <div class="experience-icon">🏛️</div>
-                <h3>文化探索</h3>
-                <p>走进历史古迹，感受千年文明魅力</p>
-            </div>
-            <div class="experience-card fade-in">
-                <div class="experience-icon">🧘</div>
-                <h3>身心疗愈</h3>
-                <p>温泉SPA、瑜伽冥想，放松身心</p>
-            </div>
-        </div>
-    </section>
+    // ═══════════════════════════════════
+    // SCROLL REVEAL
+    // ═══════════════════════════════════
+    const reveals = document.querySelectorAll('.reveal');
 
-    <!-- 精选行程 -->
-    <section class="section" id="itineraries">
-        <div class="section-title fade-in">
-            <h2>精选行程</h2>
-            <p>专业规划，省心出行</p>
-        </div>
-        <div class="itineraries-grid">
-            <div class="itinerary-card fade-in">
-                <div class="itinerary-image">
-                    <img src="https://images.unsplash.com/photo-1528164344705-47542687000d?w=800" alt="日本">
-                </div>
-                <div class="itinerary-content">
-                    <span class="itinerary-duration">7天6晚</span>
-                    <h3>日本关西深度游</h3>
-                    <p>大阪-京都-奈良，感受古都韵味，品味地道美食，体验茶道文化</p>
-                    <div class="itinerary-meta">
-                        <div class="itinerary-price">¥8,999 <span>/人</span></div>
-                        <a href="#" class="btn">查看详情</a>
-                    </div>
-                </div>
-            </div>
-            <div class="itinerary-card fade-in">
-                <div class="itinerary-image">
-                    <img src="https://images.unsplash.com/photo-1596422846543-75c6fc197f07?w=800" alt="泰国">
-                </div>
-                <div class="itinerary-content">
-                    <span class="itinerary-duration">5天4晚</span>
-                    <h3>泰国曼谷芭提雅</h3>
-                    <p>大皇宫、水上市场、海岛浮潜，体验泰式按摩与美食</p>
-                    <div class="itinerary-meta">
-                        <div class="itinerary-price">¥4,999 <span>/人</span></div>
-                        <a href="#" class="btn">查看详情</a>
-                    </div>
-                </div>
-            </div>
-            <div class="itinerary-card fade-in">
-                <div class="itinerary-image">
-                    <img src="https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=800" alt="法国">
-                </div>
-                <div class="itinerary-content">
-                    <span class="itinerary-duration">10天9晚</span>
-                    <h3>法意瑞经典欧洲</h3>
-                    <p>巴黎铁塔、罗马斗兽场、瑞士雪山，浪漫欧洲三城记</p>
-                    <div class="itinerary-meta">
-                        <div class="itinerary-price">¥18,999 <span>/人</span></div>
-                        <a href="#" class="btn">查看详情</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 旅行故事 -->
-    <section class="section stories" id="stories">
-        <div class="section-title fade-in">
-            <h2>旅行故事</h2>
-            <p>来自旅行者的真实分享</p>
-        </div>
-        <div class="stories-grid">
-            <div class="story-card fade-in">
-                <div class="story-author">
-                    <div class="story-avatar">👩</div>
-                    <div class="story-author-info">
-                        <h4>小雨</h4>
-                        <p>去过 12 个国家</p>
-                    </div>
-                </div>
-                <blockquote>"第一次独自旅行去了巴厘岛，那里的日落美得让人窒息。感谢探索世界让我的旅程如此顺利！"</blockquote>
-            </div>
-            <div class="story-card fade-in">
-                <div class="story-author">
-                    <div class="story-avatar">👨</div>
-                    <div class="story-author-info">
-                        <h4>阿杰</h4>
-                        <p>旅行博主</p>
-                    </div>
-                </div>
-                <blockquote>"带家人去了日本，行程安排得很贴心，孩子们玩得特别开心。已经计划下一次了！"</blockquote>
-            </div>
-            <div class="story-card fade-in">
-                <div class="story-author">
-                    <div class="story-avatar">👴</div>
-                    <div class="story-author-info">
-                        <h4>王叔叔</h4>
-                        <p>退休教师</p>
-                    </div>
-                </div>
-                <blockquote>"老伴一直想去欧洲，终于圆梦了。服务很周到，全程无忧，强烈推荐给同龄人！"</blockquote>
-            </div>
-        </div>
-    </section>
-
-    <!-- 数据统计 -->
-    <section class="stats">
-        <div class="stats-grid">
-            <div class="stat-item fade-in">
-                <h3 id="destinations-count">50+</h3>
-                <p>目的地</p>
-            </div>
-            <div class="stat-item fade-in">
-                <h3 id="customers-count">10,000+</h3>
-                <p>满意客户</p>
-            </div>
-            <div class="stat-item fade-in">
-                <h3 id="tours-count">200+</h3>
-                <p>精选行程</p>
-            </div>
-            <div class="stat-item fade-in">
-                <h3 id="rating-count">4.9</h3>
-                <p>用户评分</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- 订阅区域 -->
-    <section class="newsletter" id="contact">
-        <h2>订阅旅行灵感</h2>
-        <p>获取独家优惠和精选旅行推荐</p>
-        <div class="newsletter-form">
-            <input type="email" placeholder="输入你的邮箱地址">
-            <button class="btn" onclick="subscribe()">订阅</button>
-        </div>
-    </section>
-
-    <!-- 页脚 -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>关于我们</h3>
-                <a href="#">公司介绍</a>
-                <a href="#">团队成员</a>
-                <a href="#">发展历程</a>
-                <a href="#">合作伙伴</a>
-            </div>
-            <div class="footer-section">
-                <h3>热门目的地</h3>
-                <a href="#">巴厘岛</a>
-                <a href="#">东京</a>
-                <a href="#">巴黎</a>
-                <a href="#">马尔代夫</a>
-            </div>
-            <div class="footer-section">
-                <h3>旅行服务</h3>
-                <a href="#">机票预订</a>
-                <a href="#">酒店预订</a>
-                <a href="#">签证服务</a>
-                <a href="#">旅行保险</a>
-            </div>
-            <div class="footer-section">
-                <h3>联系我们</h3>
-                <a href="#">📧 hi@explore.com</a>
-                <a href="#">📞 400-888-8888</a>
-                <a href="#">📍 上海市浦东新区</a>
-                <a href="#">💬 在线客服</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© 2026 探索世界 All Rights Reserved</p>
-        </div>
-    </footer>
-
-    <script>
-        // 导航栏滚动效果
-        window.addEventListener('scroll', () => {
-            const nav = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
-            }
-        });
-
-        // 滚动动画
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.fade-in').forEach(el => {
-            observer.observe(el);
-        });
-
-        // 搜索功能
-        function search() {
-            const input = document.querySelector('.search-box input').value;
-            if (input.trim()) {
-                alert(`正在搜索 "${input}" 的相关内容...`);
-            } else {
-                alert('请输入目的地、城市或景点名称');
-            }
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
         }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
 
-        // 回车搜索
-        document.querySelector('.search-box input').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') search();
-        });
+    reveals.forEach(el => revealObserver.observe(el));
 
-        // 订阅功能
-        function subscribe() {
-            const email = document.querySelector('.newsletter-form input').value;
-            if (email && email.includes('@')) {
-                alert('订阅成功！感谢你的关注，我们会定期发送旅行灵感到你的邮箱。');
-                document.querySelector('.newsletter-form input').value = '';
-            } else {
-                alert('请输入有效的邮箱地址');
+    // ═══════════════════════════════════
+    // COUNTER ANIMATION
+    // ═══════════════════════════════════
+    const counters = document.querySelectorAll('[data-count]');
+
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseInt(el.dataset.count);
+          const suffix = el.closest('.stats')?.querySelector('.stat-label')?.textContent.includes('%') ? '' : '+';
+          let current = 0;
+          const step = Math.max(1, Math.floor(target / 60));
+          const timer = setInterval(() => {
+            current += step;
+            if (current >= target) {
+              current = target;
+              clearInterval(timer);
             }
+            el.textContent = current.toLocaleString() + (target > 100 ? '+' : '');
+          }, 25);
+          counterObserver.unobserve(el);
         }
+      });
+    }, { threshold: 0.5 });
 
-        // 平滑滚动
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+    counters.forEach(el => counterObserver.observe(el));
 
-        // 目的地卡片点击
-        document.querySelectorAll('.destination-card').forEach(card => {
-            card.addEventListener('click', () => {
-                const destination = card.querySelector('h3').textContent;
-                alert(`正在查看 ${destination} 的详细信息...`);
-            });
-        });
-    </script>
+    // ═══════════════════════════════════
+    // SMOOTH SCROLL FOR NAV LINKS
+    // ═══════════════════════════════════
+    document.querySelectorAll('.nav-links a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    // ═══════════════════════════════════
+    // MOBILE MENU (simple toggle)
+    // ═══════════════════════════════════
+    const menuBtn = document.querySelector('.nav-menu-btn');
+    const navLinks = document.querySelector('.nav-links');
+
+    menuBtn?.addEventListener('click', () => {
+      const isOpen = navLinks.style.display === 'flex';
+      navLinks.style.display = isOpen ? 'none' : 'flex';
+      if (!isOpen) {
+        navLinks.style.position = 'fixed';
+        navLinks.style.top = '0';
+        navLinks.style.left = '0';
+        navLinks.style.right = '0';
+        navLinks.style.bottom = '0';
+        navLinks.style.background = 'rgba(245,240,232,0.97)';
+        navLinks.style.flexDirection = 'column';
+        navLinks.style.alignItems = 'center';
+        navLinks.style.justifyContent = 'center';
+        navLinks.style.gap = '2rem';
+        navLinks.style.zIndex = '100';
+        navLinks.querySelectorAll('a').forEach(l => l.style.color = 'var(--color-text)');
+      } else {
+        navLinks.removeAttribute('style');
+      }
+    });
+  </script>
+
 </body>
 </html>
